@@ -14,8 +14,10 @@ pipeline {
         }
         stage('TomcatDeploy') {
             steps{
-             sh "curl -v -u admin:admin -T /var/lib/jenkins/workspace/TomcatPipleLine/target/spring3-mvc-maven-xml-hello-world-1.2.war 'http://52.87.166.149:8080/manager/text/deploy?path=/Spring3-mvn'" 
-          }
+                withCredentials([usernameColonPassword(credentialsId: 'tomcat_credentails', variable: 'Credentails')]) {
+             sh "curl -v -u ${Credentails} -T /var/lib/jenkins/workspace/TomcatPipleLine/target/spring3-mvc-maven-xml-hello-world-1.2.war 'http://52.87.166.149:8080/manager/text/deploy?path=/Spring3-mvn'" 
+              }
+            }
         }
     }
 }
